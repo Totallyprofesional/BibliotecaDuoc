@@ -36,8 +36,7 @@ public class Libros {
 
     public int getAño() {
         return año;
-    }
- 
+    } 
     
     public String mostrarLibro() {
         return nombre + " | " + materia + " | " + autor + " | " + año;
@@ -62,7 +61,7 @@ public class Libros {
         }
         
         List<Libros> añadidos = new ArrayList<>();
-        for (Libros libro : libros) { 
+        for (Libros libro : libros) {  
             if (libro.getMateria().equalsIgnoreCase(materia)) {
                 añadidos.add(libro); 
             } 
@@ -79,13 +78,59 @@ public class Libros {
         List<Libros> añadidos = buscarPorMateria(libros,materia);
         
         if (libroExiste.getNombre().equalsIgnoreCase(nombre) && libroExiste.getMateria().equalsIgnoreCase(materia)) {
-            
         }
-        throw new NoNombreException ("El libro " + nombre + " no se encuentra");
-        
+        throw new NoNombreException ("El libro " + nombre + " no se encuentra");    
     } 
+     
+    public static List<Libros> prestamoLibros(List<Libros> libros, List<Libros> prestamo, String retiro) throws NoNombreException {
+        if (retiro == null || retiro.isEmpty()) {
+            throw new NoNombreException("Por favor ingrese un nombre válido");
+        }
 
+        Libros encontrado = null;
+
+        for (Libros libro : libros) {
+            if (libro.getNombre().equalsIgnoreCase(retiro)) {
+            encontrado = libro;
+            break;
+            }
+        }
+ 
+        if (encontrado != null) {
+            libros.remove(encontrado);
+            prestamo.add(encontrado);
+        } else {
+            throw new NoNombreException("El libro " + retiro + " no se encuentra");
+        }
+        return prestamo;
+    }
+
+    public static List<Libros> devolucionLibros(List<Libros> libros, List<Libros> prestamo, String devolver) throws NoNombreException {
+    if (devolver == null || devolver.isEmpty()) {
+        throw new NoNombreException("Por favor ingrese un nombre válido");
+    }
+
+    Libros devuelto = null;
+  
+        for (Libros libro : prestamo) {
+            if (libro.getNombre().equalsIgnoreCase(devolver)) {
+            devuelto = libro;
+            break;
+            }
+        }
+
+        if (devuelto != null) {
+            prestamo.remove(devuelto);
+            libros.add(devuelto);
+        } else {
+            throw new NoNombreException("El libro " + devolver + " no se encuentra");
+        }
+
+        return libros;
+    }
 }
+    
+
 
 
     

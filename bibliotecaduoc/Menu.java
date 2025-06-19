@@ -11,6 +11,7 @@ import bibliotecaduoc.models.libros.Libros;
 import bibliotecaduoc.models.usuarios.CuentaUsuario;
 import bibliotecaduoc.models.usuarios.Usuario;
 import bibliotecaduoc.utils.LibrosUtils;
+import java.util.ArrayList;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Menu {
     private Usuario usuarioActual;
     private CuentaUsuario cuentaActual;  
     private List<Libros> libros = LibrosUtils.listaLibros();
+    private List<Libros> prestamo = LibrosUtils.listaLibros();
 
     public Menu(Scanner sc, DuocManager duocManager, Usuario usuarioActual, CuentaUsuario cuentaActual) {
         this.sc = sc;
@@ -37,7 +39,7 @@ public class Menu {
             System.out.println("\n Biblioteca digital Duoc");
             System.out.println("");          
             System.out.println("1) Registrar usuario");           
-            System.out.println("2) Ingresar usuario");
+            System.out.println("2) RetiroLibros");
             System.out.println("3) Lista de Libros");
             System.out.println("4) Buscar libros por nombre");
             System.out.println("5) Buscar libros por materia");
@@ -53,7 +55,8 @@ public class Menu {
                         Registrar(sc);
                         break;
                     case 2:
-                        IngresarUsuario(sc);
+                        //IngresoUsuario(sc);
+                        RetiroLibros(sc);
                         break;
                     case 3: 
                         MostrarLista();
@@ -112,34 +115,52 @@ public class Menu {
                 System.out.println("Error: " + e.getMessage());          
         }       
     }
-        
-    private void IngresarUsuario (Scanner sc) {
+    
+    private void IngresoUsuario (Scanner sc) {
         System.out.print("Ingrese RUT del cliente: ");
         String rut = sc.nextLine();
         
-        Usuario UsuarioActual = duocManager.buscarUsuario(rut);
+        Usuario UsuarioActual = duocManager.buscarUsuario(rut); 
         
-        if (UsuarioActual != null) {
+        if (UsuarioActual != null) { 
             System.out.println("Perfil de usuario:"); 
             UsuarioActual.mostrarDatos();
             cuentaActual.infoPrestamos();
         } else {
             System.out.println("RUT no encontrado");
-        } 
+        }      
+    }
         
+    private void RetiroLibros (Scanner sc) throws NoNombreException {
         MostrarLista();
-        
-        try {
-            System.out.println("\n Ingrese libro a retirar");
-            String prestamo = sc.nextLine();
+         
+        try { 
+            System.out.println("\n Ingrese libro a retirar: ");         
+            String retiro = sc.nextLine();
+            Libros.prestamoLibros(libros, prestamo, retiro);
+            System.out.println("El libro" + retiro + " ha sido retirado"); 
             
-            // Metodo para hacer prestamo 
-           
         } catch (InputMismatchException e) {
             System.out.println("Nombre inválido");
         } 
-        
     }
+    
+    private void DevolverLibros (Scanner sc) throws NoNombreException {
+        for (Libros prestamo: libros) {
+        System.out.println(libros);
+        }
+         
+        try { 
+            System.out.println("\n Ingrese libro a devolver: ");         
+            String devolver = sc.nextLine();
+            Libros.devoluciónLibros(libros, prestamo, devolver);
+            System.out.println("El libro" + devolver + " ha sido retirado"); 
+            
+        } catch (InputMismatchException e) {
+            System.out.println("Nombre inválido");
+        } 
+    }
+    
     
     private void  MostrarLista () {
         System.out.println("\n Lista de libros");

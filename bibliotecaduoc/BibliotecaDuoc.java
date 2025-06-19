@@ -26,5 +26,5 @@ public class BibliotecaDuoc {
         Menu menu = new Menu (sc, duocManager, usuarioActual, cuentaActual);
         menu.mostrarMenu();
     }    
-}  
+}   
    
