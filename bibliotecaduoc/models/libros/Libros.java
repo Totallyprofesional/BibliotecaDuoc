@@ -7,6 +7,7 @@ package bibliotecaduoc.models.libros;
 import bibliotecaduoc.exceptions.NoNombreException;
 import bibliotecaduoc.exceptions.NoMateriaException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List; 
 
 public class Libros {
@@ -128,7 +129,19 @@ public class Libros {
 
         return libros;
     }
-}
+        
+    // Hashset
+    public static HashSet<Libros> CatalogoLibros(List<Libros> libros) {
+        HashSet<String> nombresUnicos = new HashSet<>();
+        HashSet<Libros> librosUnicos = new HashSet<>();
+        for (Libros libro : libros) {
+            if (nombresUnicos.add(libro.getNombre().toLowerCase())) {
+                librosUnicos.add(libro);
+            } 
+        }
+        return librosUnicos;
+    } 
+} 
     
 
 

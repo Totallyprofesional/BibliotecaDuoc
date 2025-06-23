@@ -6,6 +6,7 @@ package bibliotecaduoc;
 
 import bibliotecaduoc.exceptions.NoMateriaException;
 import bibliotecaduoc.exceptions.NoNombreException;
+import bibliotecaduoc.exceptions.NoUsuarioException;
 import bibliotecaduoc.managers.DuocManager; 
 import bibliotecaduoc.managers.DuocManager;
 import bibliotecaduoc.models.libros.Libros;
@@ -20,11 +21,11 @@ public class BibliotecaDuoc {
     public static Usuario usuarioActual;
     public static CuentaUsuario cuentaActual;  
   
-    public static void main(String[] args) throws NoNombreException, NoMateriaException {
+    public static void main(String[] args) throws NoNombreException, NoMateriaException, NoUsuarioException {
         System.out.println("Menú de Biblioteca Duoc");
         
         Menu menu = new Menu (sc, duocManager, usuarioActual, cuentaActual);
         menu.mostrarMenu();
-    }    
+    }     
 }   
    

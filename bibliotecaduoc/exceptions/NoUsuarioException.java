@@ -6,10 +6,11 @@ package bibliotecaduoc.exceptions;
 
 /**
  *
- * @author Home
+ * @author Home 
  */
-public class NoNombreException extends Exception {
-    public NoNombreException(String mensaje) {
+public class NoUsuarioException extends Exception {
+    public NoUsuarioException(String mensaje) {
         super(mensaje);
     }    
+    
 }

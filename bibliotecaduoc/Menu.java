@@ -6,13 +6,14 @@ package bibliotecaduoc;
 
 import bibliotecaduoc.exceptions.NoNombreException;
 import bibliotecaduoc.exceptions.NoMateriaException;
+import bibliotecaduoc.exceptions.NoUsuarioException;
 import bibliotecaduoc.managers.DuocManager;
 import bibliotecaduoc.models.libros.Libros;
 import bibliotecaduoc.models.usuarios.CuentaUsuario;
 import bibliotecaduoc.models.usuarios.Usuario;
 import bibliotecaduoc.utils.LibrosUtils;
 import java.util.ArrayList;
-
+import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +33,7 @@ public class Menu {
         this.cuentaActual = cuentaActual; 
     }
     
-    public void mostrarMenu() throws NoNombreException, NoMateriaException {
+    public void mostrarMenu() throws NoNombreException, NoMateriaException, NoUsuarioException {
         int opcion = 0;
         
         do { 
@@ -49,13 +50,13 @@ public class Menu {
             try {
                 opcion = sc.nextInt();
                 sc.nextLine();
-                
+                 
                 switch (opcion) {
                     case 1: 
                         Registrar(sc);
                         break;
                     case 2:
-                        //IngresoUsuario(sc);
+                        IngresoUsuario(sc);
                         RetiroLibros(sc);
                         break;
                     case 3: 
@@ -63,13 +64,13 @@ public class Menu {
                         break;
                     case 4: 
                         NombreLibros(sc);
-                        break;
+                        break; 
                     case 5:
                         MateriaLibros(sc);
                         break; 
                     case 6:
                         NombreMateriaLibros(sc);
-                        break;
+                        break;  
                     case 7:
                         System.out.println("Fin del programa");
                         System.exit(0);
@@ -81,10 +82,10 @@ public class Menu {
                 sc.nextLine(); 
             }
             
-        } while (opcion != 7);        
+        } while (opcion != 8);        
     }
     
-    private void Registrar (Scanner sc) { 
+    private void Registrar (Scanner sc) throws NoUsuarioException { 
         System.out.println("\n Registro de usuario");
         System.out.print("Ingrese rut (con guión y puntos): "); 
         String rut = sc.nextLine();
@@ -116,7 +117,7 @@ public class Menu {
         }       
     }
     
-    private void IngresoUsuario (Scanner sc) {
+    private void IngresoUsuario (Scanner sc) throws NoUsuarioException {
         System.out.print("Ingrese RUT del cliente: ");
         String rut = sc.nextLine();
         
@@ -127,7 +128,7 @@ public class Menu {
             UsuarioActual.mostrarDatos();
             cuentaActual.infoPrestamos();
         } else {
-            System.out.println("RUT no encontrado");
+            System.out.println("RUT no encontrado"); 
         }      
     }
         
@@ -153,21 +154,23 @@ public class Menu {
         try { 
             System.out.println("\n Ingrese libro a devolver: ");         
             String devolver = sc.nextLine();
-            Libros.devoluciónLibros(libros, prestamo, devolver);
+            Libros.devolucionLibros(libros, prestamo, devolver);
             System.out.println("El libro" + devolver + " ha sido retirado"); 
             
         } catch (InputMismatchException e) {
             System.out.println("Nombre inválido");
         } 
     }
-    
-    
+   
     private void  MostrarLista () {
         System.out.println("\n Lista de libros");
         System.out.println("");
         for (Libros libro : libros) {
             System.out.println((libros.indexOf(libro) + 1) + ". " + libro.mostrarLibro());
         }
+        
+        // Hashset
+        Libros.CatalogoLibros(libros);
     }
     
     private void  NombreLibros (Scanner sc) {
@@ -185,7 +188,7 @@ public class Menu {
     
     private void MateriaLibros (Scanner sc) {
         System.out.println("Ingrese nombre de la materia: ");
-        String materia = sc.nextLine();
+        String materia = sc.nextLine(); 
          
         try {
             List<Libros> busqueda = Libros.buscarPorMateria(libros, materia);
@@ -210,7 +213,7 @@ public class Menu {
             System.out.println(libro.mostrarLibro());            
         } catch (NoNombreException e) { 
             System.out.println("Error: " + e.getMessage());
-        }  
-    }   
+        }   
+    } 
     
 }

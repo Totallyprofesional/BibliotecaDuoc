@@ -54,8 +54,7 @@ public class CuentaUsuario {
         } else {
             System.out.println("Numero de multas: " + getMultas());
             System.out.println("Total de multas: $" + getTotalMulta());
-        }
-        
+        }  
     }
     
 }
