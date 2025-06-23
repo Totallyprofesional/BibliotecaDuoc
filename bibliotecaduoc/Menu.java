@@ -6,17 +6,19 @@ package bibliotecaduoc;
 
 import bibliotecaduoc.exceptions.NoNombreException;
 import bibliotecaduoc.exceptions.NoMateriaException;
-import bibliotecaduoc.exceptions.NoUsuarioException;
+import bibliotecaduoc.exceptions.NoUsuarioException; 
 import bibliotecaduoc.managers.DuocManager;
 import bibliotecaduoc.models.libros.Libros;
 import bibliotecaduoc.models.usuarios.CuentaUsuario;
 import bibliotecaduoc.models.usuarios.Usuario;
 import bibliotecaduoc.utils.LibrosUtils;
+
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.InputMismatchException;
-import java.util.List;
+import java.util.InputMismatchException; 
+import java.util.List; 
 import java.util.Scanner;
+import java.util.HashSet;
+import java.util.TreeSet;
  
 public class Menu {
     private Scanner sc;  
@@ -45,7 +47,9 @@ public class Menu {
             System.out.println("4) Buscar libros por nombre");
             System.out.println("5) Buscar libros por materia");
             System.out.println("6) Buscar libros por nombre y materia");
-            System.out.println("7) Salir");
+            System.out.println("7) Mostrar libros por nombre único");
+            System.out.println("8) Listar libros por orden");
+            System.out.println("9) Salir");
             
             try {
                 opcion = sc.nextInt();
@@ -61,7 +65,7 @@ public class Menu {
                         break;
                     case 3: 
                         MostrarLista();
-                        break;
+                        break; 
                     case 4: 
                         NombreLibros(sc);
                         break; 
@@ -69,14 +73,19 @@ public class Menu {
                         MateriaLibros(sc);
                         break; 
                     case 6:
-                        NombreMateriaLibros(sc);
+                        NombreMateriaLibros(sc); 
                         break;  
                     case 7:
+                        LibrosUnicos(sc);
+                        break;  
+                    case 8:
+                        LibrosOrdenados(sc);
+                        break;  
+                    case 9:
                         System.out.println("Fin del programa");
                         System.exit(0);
                         break;
                 }           
-                
             } catch (InputMismatchException e) {
                 System.out.println("Debe ingresar una opción válida");
                 sc.nextLine(); 
@@ -114,7 +123,10 @@ public class Menu {
               
             } catch (IllegalArgumentException e) { 
                 System.out.println("Error: " + e.getMessage());          
-        }       
+        }  
+        
+        System.out.println("Presione enter para continuar ...");
+        sc.nextLine();
     }
     
     private void IngresoUsuario (Scanner sc) throws NoUsuarioException {
@@ -144,6 +156,9 @@ public class Menu {
         } catch (InputMismatchException e) {
             System.out.println("Nombre inválido");
         } 
+        
+        System.out.println("Presione enter para continuar ...");
+        sc.nextLine();
     }
     
     private void DevolverLibros (Scanner sc) throws NoNombreException {
@@ -171,6 +186,8 @@ public class Menu {
         
         // Hashset
         Libros.CatalogoLibros(libros);
+        System.out.println("Presione enter para continuar ...");
+        sc.nextLine();
     }
     
     private void  NombreLibros (Scanner sc) {
@@ -184,6 +201,9 @@ public class Menu {
         } catch (NoNombreException e) {
             System.out.println("Error: " + e.getMessage());
         } 
+        
+        System.out.println("Presione enter para continuar ...");
+        sc.nextLine();
     }
     
     private void MateriaLibros (Scanner sc) {
@@ -199,6 +219,9 @@ public class Menu {
         } catch (NoMateriaException e) { 
             System.out.println("Error: " + e.getMessage());
         }    
+        
+        System.out.println("Presione enter para continuar ...");
+        sc.nextLine();
     } 
      
     private void  NombreMateriaLibros (Scanner sc) throws NoNombreException, NoMateriaException {    
@@ -212,8 +235,34 @@ public class Menu {
             System.out.println("\n Libro encontrado"); 
             System.out.println(libro.mostrarLibro());            
         } catch (NoNombreException e) { 
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage()); 
         }   
+        
+        System.out.println("Presione enter para continuar ...");
+        sc.nextLine();
     } 
+    
+        private void LibrosUnicos(Scanner sc) {
+        System.out.println("\n Lista libros por nombre único");
+        HashSet<Libros> librosUnicos = Libros.CatalogoLibros(libros);
+        for (Libros libro : librosUnicos) {
+            System.out.println(libro.mostrarLibro());
+        }
+        
+        // Input para volver al menú
+        System.out.println("Presione enter para continuar ...");
+        sc.nextLine();
+    }
+    
+    private void LibrosOrdenados(Scanner sc) {
+        System.out.println("\n Libros por orden");
+        TreeSet<Libros> librosOrdenados = new TreeSet<>(libros);
+        for (Libros libro : librosOrdenados) { 
+            System.out.println(libro.mostrarLibro());
+        }
+         
+        System.out.println("Presione enter para continuar ...");
+        sc.nextLine();
+    }
     
 }

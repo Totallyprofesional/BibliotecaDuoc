@@ -9,8 +9,9 @@ import bibliotecaduoc.exceptions.NoMateriaException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List; 
+import java.util.TreeSet;
 
-public class Libros {
+public class Libros implements Comparable<Libros> {
     private String nombre;
     private String materia;
     private String autor;
@@ -111,7 +112,7 @@ public class Libros {
         throw new NoNombreException("Por favor ingrese un nombre válido");
     }
 
-    Libros devuelto = null;
+        Libros devuelto = null;
   
         for (Libros libro : prestamo) {
             if (libro.getNombre().equalsIgnoreCase(devolver)) {
@@ -119,7 +120,7 @@ public class Libros {
             break;
             }
         }
-
+ 
         if (devuelto != null) {
             prestamo.remove(devuelto);
             libros.add(devuelto);
@@ -129,8 +130,8 @@ public class Libros {
 
         return libros;
     }
-        
-    // Hashset
+    
+    // Hashset, muestra nombres que no se repiten      
     public static HashSet<Libros> CatalogoLibros(List<Libros> libros) {
         HashSet<String> nombresUnicos = new HashSet<>();
         HashSet<Libros> librosUnicos = new HashSet<>();
@@ -140,7 +141,13 @@ public class Libros {
             } 
         }
         return librosUnicos;
-    } 
+    }    
+    
+    @Override
+    public int compareTo(Libros otro) {
+    return this.nombre.compareToIgnoreCase(otro.getNombre());
+    }
+    
 } 
     
 

@@ -25,7 +25,7 @@ public class BibliotecaDuoc {
         System.out.println("Menú de Biblioteca Duoc");
         
         Menu menu = new Menu (sc, duocManager, usuarioActual, cuentaActual);
-        menu.mostrarMenu();
+        menu.mostrarMenu(); 
     }     
 }   
    
