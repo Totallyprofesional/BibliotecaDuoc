@@ -11,18 +11,17 @@ public class Usuario {
     private String apellidoMaterno;
     private String mail;
     private int teléfono;    
-    private CuentaUsuario cuenta;  
 
-    public Usuario (String rut, String nombre, String apellidoPaterno, String apellidoMaterno, int teléfono) {
+    public Usuario (String rut, String nombre, String apellidoPaterno, String apellidoMaterno, String mail, int teléfono) {
         if (!validarRut(rut)) {
             throw new IllegalArgumentException("RUT no válido");
         }
         
         this.rut = rut;
-        this.nombre = nombre;
+        this.nombre = nombre; 
         this.apellidoPaterno = apellidoPaterno; 
         this.apellidoMaterno = apellidoMaterno;
-        this.mail= mail;
+        this.mail = mail;
         this.teléfono = teléfono;
     }
     
@@ -39,7 +38,7 @@ public class Usuario {
             System.out.println("\n Usuario registrado correctamente: " + nombre + " " + apellidoPaterno + " " + apellidoMaterno);
             return true;
         } 
-        return false;    
+        return false;     
     }
      
     public void mostrarDatos() {
@@ -57,14 +56,6 @@ public class Usuario {
     public void setRut(String rut) {
         this.rut = rut; 
     } 
-
-    public CuentaUsuario getCuenta() {
-        return cuenta;
-    }
-
-    public void setCuenta(CuentaUsuario cuenta) {
-        this.cuenta = cuenta;
-    }
     
 }
 

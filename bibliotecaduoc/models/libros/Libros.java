@@ -131,7 +131,6 @@ public class Libros implements Comparable<Libros> {
         return libros;
     }
     
-    // Hashset, muestra nombres que no se repiten      
     public static HashSet<Libros> CatalogoLibros(List<Libros> libros) {
         HashSet<String> nombresUnicos = new HashSet<>();
         HashSet<Libros> librosUnicos = new HashSet<>();

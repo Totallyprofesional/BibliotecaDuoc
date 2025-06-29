@@ -21,18 +21,18 @@ import java.util.HashSet;
 import java.util.TreeSet;
  
 public class Menu {
-    private Scanner sc;  
+    private Scanner sc;   
     private DuocManager duocManager; 
     private Usuario usuarioActual;
-    private CuentaUsuario cuentaActual;  
+    private CuentaUsuario cuentaActual; 
     private List<Libros> libros = LibrosUtils.listaLibros();
     private List<Libros> prestamo = LibrosUtils.listaLibros();
 
     public Menu(Scanner sc, DuocManager duocManager, Usuario usuarioActual, CuentaUsuario cuentaActual) {
         this.sc = sc;
         this.duocManager = duocManager;
-        this.usuarioActual = usuarioActual;
-        this.cuentaActual = cuentaActual; 
+        this.usuarioActual = usuarioActual; 
+        this.cuentaActual = cuentaActual;
     }
     
     public void mostrarMenu() throws NoNombreException, NoMateriaException, NoUsuarioException {
@@ -41,15 +41,16 @@ public class Menu {
         do { 
             System.out.println("\n Biblioteca digital Duoc");
             System.out.println("");          
-            System.out.println("1) Registrar usuario");           
-            System.out.println("2) RetiroLibros");
-            System.out.println("3) Lista de Libros");
-            System.out.println("4) Buscar libros por nombre");
-            System.out.println("5) Buscar libros por materia");
-            System.out.println("6) Buscar libros por nombre y materia");
-            System.out.println("7) Mostrar libros por nombre único");
-            System.out.println("8) Listar libros por orden");
-            System.out.println("9) Salir");
+            System.out.println("1) Registrar usuario");            
+            System.out.println("2) Prestamo de libros");
+            System.out.println("3) Devolucion de libros");
+            System.out.println("4) Lista de Libros");
+            System.out.println("5) Buscar libros por nombre");
+            System.out.println("6) Buscar libros por materia");
+            System.out.println("7) Buscar libros por nombre y materia");
+            System.out.println("8) Mostrar libros por nombre único");
+            System.out.println("9) Listar libros por orden");
+            System.out.println("10) Salir");
             
             try {
                 opcion = sc.nextInt();
@@ -64,24 +65,27 @@ public class Menu {
                         RetiroLibros(sc);
                         break;
                     case 3: 
-                        MostrarLista();
+                        DevolverLibros(sc);
                         break; 
                     case 4: 
-                        NombreLibros(sc);
+                        MostrarLista(sc);  
                         break; 
-                    case 5:
-                        MateriaLibros(sc);
+                    case 5: 
+                        NombreLibros(sc); 
                         break; 
                     case 6:
+                        MateriaLibros(sc);
+                        break; 
+                    case 7:
                         NombreMateriaLibros(sc); 
                         break;  
-                    case 7:
+                    case 8:
                         LibrosUnicos(sc);
                         break;  
-                    case 8:
+                    case 9:
                         LibrosOrdenados(sc);
                         break;  
-                    case 9:
+                    case 10:
                         System.out.println("Fin del programa");
                         System.exit(0);
                         break;
@@ -90,40 +94,47 @@ public class Menu {
                 System.out.println("Debe ingresar una opción válida");
                 sc.nextLine(); 
             }
-            
-        } while (opcion != 8);        
+             
+        } while (opcion != 10);        
     }
     
     private void Registrar (Scanner sc) throws NoUsuarioException { 
         System.out.println("\n Registro de usuario");
         System.out.print("Ingrese rut (con guión y puntos): "); 
-        String rut = sc.nextLine();
+        String rut = sc.nextLine(); 
         
-        if (duocManager.buscarUsuario(rut) != null) {
+        duocManager = new DuocManager();
+        if (duocManager.obtenerUsuario(rut) != null) {
             System.out.println("Error: Ya existe un usuario con ese RUT");
             return;
         } 
         
         System.out.print("Ingrese nombre: ");
         String nombre = sc.nextLine();
-        System.out.print("Ingrese apellido paterno: ");
+        System.out.print("Ingrese apellido paterno: "); 
         String apellidoPaterno = sc.nextLine();
         System.out.print("Ingrese apellido materno: ");
         String apellidoMaterno = sc.nextLine();
+        System.out.print("Ingrese mail: ");
+        String mail = sc.nextLine(); 
         System.out.print("Ingrese teléfono: ");
-        int teléfono = sc.nextInt();
-          
-        try {      
-            Usuario nuevoUsuario = new Usuario (rut, nombre, apellidoPaterno, apellidoMaterno, teléfono);      
+        int teléfono = sc.nextInt();  
+        
+        try {        
+            Usuario nuevoUsuario = new Usuario (rut, nombre, apellidoPaterno, apellidoMaterno, mail, teléfono);
             
-            if (nuevoUsuario.registrarUsuario() && duocManager.agregarUsuario (nuevoUsuario)) {         
-                usuarioActual = nuevoUsuario;              
-                usuarioActual.mostrarDatos();              
-            }   
+            int prestamos = 0;
+            CuentaUsuario nuevaCuenta = new CuentaUsuario (prestamos);  
+              
+                if (nuevoUsuario.registrarUsuario() && duocManager.agregarUsuario (nuevoUsuario)) {         
+                    usuarioActual = nuevoUsuario;     
+                    cuentaActual = nuevaCuenta;
+                    usuarioActual.mostrarDatos();              
+                }   
               
             } catch (IllegalArgumentException e) { 
                 System.out.println("Error: " + e.getMessage());          
-        }  
+            }  
         
         System.out.println("Presione enter para continuar ...");
         sc.nextLine();
@@ -145,12 +156,13 @@ public class Menu {
     }
         
     private void RetiroLibros (Scanner sc) throws NoNombreException {
-        MostrarLista();
+        MostrarLista(sc);
          
         try { 
             System.out.println("\n Ingrese libro a retirar: ");         
             String retiro = sc.nextLine();
-            Libros.prestamoLibros(libros, prestamo, retiro);
+            Libros.prestamoLibros(libros, prestamo, retiro);  
+            cuentaActual.Contador();    
             System.out.println("El libro" + retiro + " ha sido retirado"); 
             
         } catch (InputMismatchException e) {
@@ -170,22 +182,26 @@ public class Menu {
             System.out.println("\n Ingrese libro a devolver: ");         
             String devolver = sc.nextLine();
             Libros.devolucionLibros(libros, prestamo, devolver);
-            System.out.println("El libro" + devolver + " ha sido retirado"); 
+            cuentaActual.Reset(); 
+            System.out.println("El libro" + devolver + " ha sido devuelto"); 
             
         } catch (InputMismatchException e) {
             System.out.println("Nombre inválido");
         } 
+        
+        System.out.println("Presione enter para continuar ...");
+        sc.nextLine();
     }
    
-    private void  MostrarLista () {
+    private void  MostrarLista (Scanner sc) {
         System.out.println("\n Lista de libros");
         System.out.println("");
         for (Libros libro : libros) {
             System.out.println((libros.indexOf(libro) + 1) + ". " + libro.mostrarLibro());
         }
         
-        // Hashset
         Libros.CatalogoLibros(libros);
+        
         System.out.println("Presione enter para continuar ...");
         sc.nextLine();
     }
@@ -233,23 +249,24 @@ public class Menu {
         try {
             Libros libro = Libros.buscarPorNombreyMateria(libros, nombre, materia);
             System.out.println("\n Libro encontrado"); 
-            System.out.println(libro.mostrarLibro());            
+            System.out.println(libro.mostrarLibro());      
+            
+            // Poner los dos excepcion
         } catch (NoNombreException e) { 
-            System.out.println("Error: " + e.getMessage()); 
+            System.out.println("Error: " + e.getMessage());  
         }   
         
         System.out.println("Presione enter para continuar ...");
         sc.nextLine();
     } 
     
-        private void LibrosUnicos(Scanner sc) {
+        private void LibrosUnicos(Scanner sc) { 
         System.out.println("\n Lista libros por nombre único");
         HashSet<Libros> librosUnicos = Libros.CatalogoLibros(libros);
         for (Libros libro : librosUnicos) {
             System.out.println(libro.mostrarLibro());
         }
         
-        // Input para volver al menú
         System.out.println("Presione enter para continuar ...");
         sc.nextLine();
     }

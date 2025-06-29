@@ -4,57 +4,33 @@
  */
 package bibliotecaduoc.models.usuarios;
 
-public class CuentaUsuario { 
-    int contadorPrestamos = 0;  
-    int contadorMultas = 0; 
-    int Multa = 0;
-    int prestamos;
-    int multas;
-    int totalMulta;
-
-    public CuentaUsuario(int prestamos, int multas, int totalMulta) {
-        this.prestamos = contadorPrestamos;
-        this.multas = contadorMultas; 
-        this.totalMulta = (Multa + 5000) * contadorMultas;
-    }
-
-    public int getContadorPrestamos() { 
-        return contadorPrestamos;
-    }
-
-    public int getContadorMultas() {
-        return contadorMultas;
-    }
-
-    public int getMulta() {
-        return Multa;
-    }
-
-    public int getPrestamos() {
-        return prestamos;
-    }
-
-    public int getMultas() { 
-        return multas;
-    }
-
-    public int getTotalMulta() {
-        return totalMulta;
+public class CuentaUsuario {  
+    private int prestamos; 
+     
+    public CuentaUsuario(int prestamos) {
+        this.prestamos = prestamos; 
+    } 
+     
+    public void Contador (){ 
+        this.prestamos += 1; 
     }
     
+    public void Reset (){
+        this.prestamos -= 1; 
+    }
+        
     public void infoPrestamos (){
-        if (getPrestamos() == 0){
+        getprestamos();
+        
+        if (getprestamos() == 0){
             System.out.println("No se registran prestamos");
         } else{
-            System.out.println("Numero de prestamos: " + getPrestamos());
-        }
-        
-        if (getMultas() == 0){
-            System.out.println("No se registran multas");
-        } else {
-            System.out.println("Numero de multas: " + getMultas());
-            System.out.println("Total de multas: $" + getTotalMulta());
-        }  
+            System.out.println("Numero de prestamos: " + getprestamos());
+        } 
+    }
+
+    public int getprestamos() {
+        return prestamos;
     }
     
 }

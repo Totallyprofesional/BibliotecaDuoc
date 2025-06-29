@@ -15,7 +15,7 @@ public class DuocManager {
     private Map < String, Usuario > usuarios;
     private static DuocManager instancia;
      
-    private DuocManager() {   
+    public DuocManager() {   
         this.usuarios = new HashMap<>(); 
     } 
     
@@ -24,7 +24,7 @@ public class DuocManager {
             instancia = new DuocManager(); 
         }
         return instancia;
-    }
+    } 
     
     public boolean agregarUsuario (Usuario usuario) {
         if (usuarios.containsKey(usuario.getRut())) {
@@ -34,6 +34,10 @@ public class DuocManager {
         return true;
     }
      
+    public Usuario obtenerUsuario(String rut) {
+        return usuarios.get(rut);
+    }
+    
     public Usuario buscarUsuario(String rut) throws NoUsuarioException {
         if (usuarios.containsKey(rut)) {
             return usuarios.get(rut);

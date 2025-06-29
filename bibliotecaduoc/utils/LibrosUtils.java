@@ -13,6 +13,7 @@ public class LibrosUtils {
         List<Libros> libros = new ArrayList<>();
         
         libros.add(new Libros ("Java for dummies", "Programación", "Burd, Barry", 2022));
+        libros.add(new Libros ("Java for dummies, Vol 2", "Programación", "Burd, Barry", 2023));
         libros.add(new Libros ("Java 17 : fundamentos prácticos de programación", "Programación", "Vegas Gertrudix, José María", 2022));
         libros.add(new Libros ("El programador pragmático : viaje a la maestría", "Programación", "Thomas, David y Hunt, Andrew", 2022));
         libros.add(new Libros ("Programación orientada a objetos en Java: Buenas prácticas", "Programación", "Hernández Bejarano, Miguel y Baquero Rey, Luis Eduardo", 2023));
